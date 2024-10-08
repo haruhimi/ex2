@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="../dist/jspsych.js"></script>
+    <script src="../dist/plugin-video-button-response.js"></script>
+    <script src="../dist/plugin-html-button-response.js"></script>
+    <script src="../dist/plugin-image-button-response.js"></script>
+    <script src="../dist/plugin-preload.js"></script> 
+    <script src="../dist/plugin-survey-multi-choice.js"></script>
+    <link rel="stylesheet" href="../dist/jspsych.css">
+  </head>
+  <body></body>
+  <script>
+    // セットアップ。共通
+    var jsPsych = initJsPsych({
+      on_finish: function() {
+        jsPsych.data.displayData();
+      }
+    });
+
+    // プレロード処理。提示タイプ共通、現在除外中
+    var preload = {
+      type: jsPsychPreload,
+      auto_preload: true
+    };
+
+    // 使用可能な2つの異なる回答尺度を定義する。質問テンプレから
+    var page_1_options = ["a", "b", "c", "d","e", "f", "g", "h", "i"];
+    var page_2_options = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
+
+    // 初期文章。動画テンプレから
+    var pre_trial = {
+      type: jsPsychHtmlButtonResponse,
+      stimulus: '次ページの動画で音量調節を行って下さい。',
+      choices: ['次へ']
+    };
+
+    // 動画
+    var trial_1 = {
+      type: jsPsychVideoButtonResponse,
+      stimulus: ['video/49_ニュートラル.mp4'],
+      choices: ['次へ'],
+      margin_vertical: '10px',
+      margin_horizontal: '8px',
+      prompt: '再生終了したら次のページへ',
+      //352*288　動画解像度
+      width: 704,
+      height: 576,
+      autoplay: true,
+      rate: 1,
+      response_ends_trial: true,
+      // response_allowed_while_playing: false　本番では有効に
+    };
+
+    // グリッド画像
+    var trial_2 = {
+      type: jsPsychImageButtonResponse,
+      stimulus: ['画像/感情測定グリッド暫定.png'],
+      // stimulus_width: 400,
+      choices: ['次へ'],
+      prompt: "<p>ここには画像の説明を書く。</p>今回は黒く塗りつぶされたマス(中心の予定)のアルファベットと数字の組み合わせ(a-1など)を、次のページで選択してみてください。",
+    };    
+
+    // 回答
+    var multi_choice_block_horizontal_3 = {
+      type: jsPsychSurveyMultiChoice,
+      questions: [
+        {prompt: "アルファベット (今回は e の列)", name: 'アルファベット', options: page_1_options, required: true, horizontal: true,}, 
+        {prompt: "数字 (今回は 5 の行)", name: '数字', options: page_2_options, required: true, horizontal: true}
+      ],
+      button_label: '次へ',
+    };
+
+    // ここでグリッド画像の感情測定が必要かもしれない、開始時の感情を測定する必要性？
+    // 最初の動画
+    var trial_101 = {
+      type: jsPsychVideoButtonResponse,
+      stimulus: ['video/恐怖_コピーキャット_編集済.mp4'],
+      choices: ['次へ'],
+      margin_vertical: '10px',
+      margin_horizontal: '8px',
+      prompt: '再生終了したら次のページへ',
+      //352*288　動画解像度
+      width: 704,
+      height: 576,
+      autoplay: true,
+      rate: 1,
+      response_ends_trial: true,
+      // response_allowed_while_playing: false　本番では有効に
+    };
+
+    // 最初のグリッド画像
+    var trial_102 = {
+      type: jsPsychImageButtonResponse,
+      stimulus: ['画像/感情測定グリッド暫定.png'],
+      // stimulus_width: 400,
+      choices: ['次へ'],
+      prompt: "現在の感情に当てはまるマスのアルファベットと数字の組み合わせ(a-1など)を、次のページで選択してください",
+    };    
+
+    // 最初の回答、nameは入れた方が集計時に見やすいかも
+    // こっちの方が直感的に回答可能かもしれない
+    var multi_choice_block_horizontal_103 = {
+      type: jsPsychSurveyMultiChoice,
+      questions: [
+        {prompt: "アルファベット", name: 'アルファベット', options: page_1_options, required: true, horizontal: true,}, 
+        {prompt: "数字", name: '数字', options: page_2_options, required: true, horizontal: true}
+      ],
+      button_label: '次へ',
+    };
+    // 以下、「動画、画像、質問」の無限ループで行けそう
+
+    // 動画
+    var trial_201 = {
+      type: jsPsychVideoButtonResponse,
+      stimulus: ['video/優しさ_妹の恋人_編集済.mp4'],
+      choices: ['次へ'],
+      margin_vertical: '10px',
+      margin_horizontal: '8px',
+      prompt: '再生終了したら次のページへ',
+      //352*288　動画解像度
+      width: 704,
+      height: 576,
+      autoplay: true,
+      rate: 1,
+      response_ends_trial: true,
+      // response_allowed_while_playing: false　本番では有効に
+    };
+
+    // グリッド画像
+    var trial_202 = {
+      type: jsPsychImageButtonResponse,
+      stimulus: ['画像/感情測定グリッド暫定.png'],
+      // stimulus_width: 400,
+      choices: ['次へ'],
+      prompt: "現在の感情に当てはまるマスのアルファベットと数字の組み合わせ(a-1など)を、次のページで選択してください",
+    };    
+
+    // 回答
+    var multi_choice_block_horizontal_203 = {
+      type: jsPsychSurveyMultiChoice,
+      questions: [
+        {prompt: "アルファベット", name: 'アルファベット', options: page_1_options, required: true, horizontal: true,}, 
+        {prompt: "数字", name: '数字', options: page_2_options, required: true, horizontal: true}
+      ],
+      button_label: '次へ',
+    };
+
+    jsPsych.run([pre_trial,trial_1, trial_2, multi_choice_block_horizontal_3,  trial_101, trial_102, multi_choice_block_horizontal_103, trial_201, trial_202, multi_choice_block_horizontal_203]);
+
+  </script>
+</html>
